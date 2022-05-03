@@ -1,0 +1,91 @@
+create table Ueberlagerte_Ware(
+
+UW_ID int NOT NULL AUTO_INCREMENT,
+UW_Produkt varchar(250) NOT NULL,
+UW_Charge varchar(250) NOT NULL,
+UW_Grund varchar(250) NOT NULL,
+UW_Gebindeinhalt float NOT NULL,
+UW_AnzahlGebinde varchar(250) NOT NULL,
+UW_Menge float NOT NULL,
+UW_Abfallart varchar(250) NOT NULL,
+UW_Save_Time datetime DEFAULT CURRENT_TIMESTAMP,
+
+PRIMARY KEY(UW_ID)
+
+);
+
+select UW_Produkt,UW_Charge,UW_Grund,UW_Gebindeinhalt,UW_AnzahlGebinde,UW_Menge,UW_Abfallart from Ueberlagerte_Ware order by UW_Save_Time desc LIMIT 5
+
+
+create table Reklamationen(
+
+R_ID int NOT NULL AUTO_INCREMENT,
+R_Produkt varchar(250) NOT NULL,
+R_Charge varchar(250) NOT NULL,
+R_Grund varchar(250) NOT NULL,
+R_Gebindeinhalt float  NOT NULL,
+R_AnzahlGebinde varchar(250) NOT NULL,
+R_Menge float NOT NULL,
+R_Abfallart varchar(250) NOT NULL,
+R_Save_Time datetime DEFAULT CURRENT_TIMESTAMP,
+
+PRIMARY KEY(R_ID)
+);
+
+select R_Produkt,R_Charge,R_Grund,R_Gebindeinhalt,R_AnzahlGebinde,R_Menge,R_Abfallart from Reklamationen_Ware order by R_Save_Time desc LIMIT 5
+
+
+create table Laborabfaelle(
+
+L_ID int NOT NULL AUTO_INCREMENT,
+L_Produkt varchar(250) NOT NULL,
+L_Charge varchar(250) NOT NULL,
+L_Grund varchar(250) NOT NULL,
+L_Gebindeinhalt float  NOT NULL,
+L_AnzahlGebinde varchar(250) NOT NULL,
+L_Menge float NOT NULL,
+L_Abfallart varchar(250) NOT NULL,
+L_Save_Time datetime DEFAULT CURRENT_TIMESTAMP,
+
+PRIMARY KEY(L_ID)
+);
+
+
+create table Sonstiges(
+
+S_ID int NOT NULL AUTO_INCREMENT,
+S_Produkt varchar(250) NOT NULL,
+S_Charge varchar(250) NOT NULL,
+S_Grund varchar(250) NOT NULL,
+S_Gebindeinhalt float  NOT NULL,
+S_AnzahlGebinde varchar(250) NOT NULL,
+S_Menge float NOT NULL,
+S_Abfallart varchar(250) NOT NULL,
+S_Save_Time datetime DEFAULT CURRENT_TIMESTAMP,
+
+PRIMARY KEY(S_ID)
+);
+
+create table WBAbfallLogin(
+
+WBAL_ID int NOT NULL AUTO_INCREMENT,
+WBAL_User varchar(250) NOT NULL,
+WBAL_Password varchar(250) NOT NULL,
+WBAL_Save_Time datetime DEFAULT CURRENT_TIMESTAMP,
+
+PRIMARY KEY(WBAL_ID)
+
+);
+
+
+SELECT (select ROUND(IFNULL(SUM(UW_Menge), 0),2) from Ueberlagerte_Ware where UW_Abfallart='Lackabfall lösemittelhaltig') + (select ROUND(IFNULL(SUM(R_Menge), 0),2) from Reklamationen where R_Abfallart='Lackabfall lösemittelhaltig') + (select ROUND(IFNULL(SUM(L_Menge), 0),2) from Laborabfaelle where L_Abfallart='Lackabfall lösemittelhaltig') + (select ROUND(IFNULL(SUM(S_Menge), 0),2) from Sonstiges where S_Abfallart='Lackabfall lösemittelhaltig') as Lacklsmtl
+
+SELECT (select ROUND(IFNULL(SUM(UW_Menge), 0),2) from Ueberlagerte_Ware where UW_Abfallart='Lackabfall wässrig') + (select ROUND(IFNULL(SUM(R_Menge), 0),2) from Reklamationen where R_Abfallart='Lackabfall wässrig') + (select ROUND(IFNULL(SUM(L_Menge), 0),2) from Laborabfaelle where L_Abfallart='Lackabfall wässrig') + (select ROUND(IFNULL(SUM(S_Menge), 0),2) from Sonstiges where S_Abfallart='Lackabfall wässrig') as Lackwssrig
+
+SELECT (select ROUND(IFNULL(SUM(UW_Menge), 0),2) from Ueberlagerte_Ware where UW_Abfallart='Rohstoffe') + (select ROUND(IFNULL(SUM(R_Menge), 0),2) from Reklamationen where R_Abfallart='Rohstoffe') + (select ROUND(IFNULL(SUM(L_Menge), 0),2) from Laborabfaelle where L_Abfallart='Rohstoffe') + (select ROUND(IFNULL(SUM(S_Menge), 0),2) from Sonstiges where S_Abfallart='Rohstoffe') as Rohstoffe
+
+SELECT (select ROUND(IFNULL(SUM(UW_Menge), 0),2) from Ueberlagerte_Ware where UW_Abfallart='Isocyanate') + (select ROUND(IFNULL(SUM(R_Menge), 0),2) from Reklamationen where R_Abfallart='Isocyanate') + (select ROUND(IFNULL(SUM(L_Menge), 0),2) from Laborabfaelle where L_Abfallart='Isocyanate') + (select ROUND(IFNULL(SUM(S_Menge), 0),2) from Sonstiges where S_Abfallart='Isocyanate') as Isocyanate
+
+
+
+
